@@ -56,7 +56,10 @@ jobs:
               sed -i "s/^jdbc.username.*$/jdbc.username\=${{ secrets.RDS_USER }}/" src/main/resources/application.properties
               sed -i "s/^jdbc.password.*$/jdbc.password\=${{ secrets.RDS_PASS }}/" src/main/resources/application.properties
               sed -i "s/db01/${{ secrets.RDS_ENDPOINT }}/" src/main/resources/application.properties
-  
+
+        - name: Debug Tag
+          run: echo "Using tag latest,${{ env.GIT_RUN_NO }}"
+
         - name: Build & Upload Image to ECR
           uses: appleboy/docker-ecr-action@master
           with:
@@ -67,7 +70,7 @@ jobs:
             repo: ${{ env.EC_REPO }}
             region: ${{ env.AWS_REGION }}
             #auto_tag: true
-            tag: latest,${{ env.GIT_RUN_NO }}
+            tag: latest,${{ github.run_number }}
             daemon_off: false
             dockerfile: ./Dockerfile
             context: ./
