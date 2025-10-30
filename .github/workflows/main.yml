@@ -3,7 +3,6 @@ on: workflow_dispatch
 env:
   AWS_REGION: eu-west-2
   EC_REPO: actapp
-  GIT_RUN_NO: ${{ github.run_number }}
   
 jobs:
   Testing:
@@ -46,6 +45,8 @@ jobs:
   BUILD_AND_PUBLISH:
       needs: Testing
       runs-on: ubuntu-latest
+      env:
+        GIT_RUN_NO: ${{ github.run_number }}
       steps:
         - name: Code checkout
           uses: actions/checkout@v5
