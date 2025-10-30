@@ -49,8 +49,8 @@ jobs:
 
         - name: Update Application Properties File
           run: |
-              sed -i "s/^jdbc.username.*$/jdbc.username\=${{secret.RDS_USER}}" src/main/resources/application.properties
-              sed -i "s/^jdbc.password.*$/jdbc.password\=${{secret.RDS_PASS}}" src/main/resources/application.properties
+              sed -i "s/^jdbc.username.*$/jdbc.username\=${{secret.RDS_USER}}/" src/main/resources/application.properties
+              sed -i "s/^jdbc.password.*$/jdbc.password\=${{secret.RDS_PASS}}/" src/main/resources/application.properties
               sed -i "s/db01/${{secret.RDS_ENDPOINT}}/" src/main/resources/application.properties
   
         - name: Build & Upload Image to ECR
