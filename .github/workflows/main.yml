@@ -58,7 +58,7 @@ jobs:
           with:
             access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
             secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            registry: ${{ secrets.REGISTRY }}
+            registry: ${{ secrets.registry }}
             #cache_from: ${{ secrets.cache }}
             repo: ${{ env.EC_REPO }}
             region: ${{ env.AWS_REGION }}
