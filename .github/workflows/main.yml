@@ -3,6 +3,7 @@ on: workflow_dispatch
 env:
   AWS_REGION: eu-west-2
   EC_REPO: actapp
+  GIT_RUN_NO: ${{ github.run_number }}
   
 jobs:
   Testing:
@@ -65,7 +66,7 @@ jobs:
             repo: ${{ env.EC_REPO }}
             region: ${{ env.AWS_REGION }}
             #auto_tag: true
-            tag: latest,${{ github.run_number }}
+            tag: latest,${{ GIT_RUN_NO }}
             daemon_off: false
             dockerfile: ./Dockerfile
             context: ./
