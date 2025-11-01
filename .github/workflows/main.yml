@@ -6,7 +6,7 @@ env:
   ECS_SERVICE: vproapp-act-tdef-service-ppbrag8n
   ECS_CLUSTER: vproapp-act2
   CONTAINER_NAME: vproapp
-  TASK_DEFINITION: aws-files/task-deffile.json   #task-definition.json
+  TASK_DEFINITION: aws-files/taskdeffile.json   #task-definition.json
   
 jobs:
   Testing:
@@ -49,8 +49,8 @@ jobs:
   BUILD_AND_PUBLISH:
       needs: Testing
       runs-on: ubuntu-latest
-      env:
-        GIT_RUN_NO: ${{ github.run_number }}
+      #env:
+      #  GIT_RUN_NO: ${{ github.run_number }}
       steps:
         - name: Code checkout
           uses: actions/checkout@v5
@@ -93,19 +93,19 @@ jobs:
               aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
               aws-region: ${{ env.AWS_REGION }}
 
-          - name: Login to Amazon ECR
-            id: login-ecr
-            uses: aws-actions/amazon-ecr-login@v1
+          #- name: Login to Amazon ECR
+          #  id: login-ecr
+          #  uses: aws-actions/amazon-ecr-login@v1
 
-          - name: Build, tag, and push image to Amazon ECR
-            id: build-image
-            env:
-              ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-              IMAGE_TAG: ${{ github.sha }}
-            run: |
-              docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-              docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-              echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          #- name: Build, tag, and push image to Amazon ECR
+          #  id: build-image
+          #  env:
+          #    ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          #    IMAGE_TAG: ${{ github.sha }}
+          #  run: |
+          #    docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          #    docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          #    echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
           - name: Fill in the new image ID in the Amazon ECS task definition
             id: task-def
@@ -113,7 +113,8 @@ jobs:
             with:
               task-definition: ${{ env.TASK_DEFINITION }}
               container-name: ${{ env.CONTAINER_NAME }}
-              image: ${{ steps.build-image.outputs.image }}
+              #image: ${{ steps.build-image.outputs.image }}
+              image: ${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.run_number }}
 
           - name: Deploy Amazon ECS task definition
             uses: aws-actions/amazon-ecs-deploy-task-definition@v2
