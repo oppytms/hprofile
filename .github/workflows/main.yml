@@ -85,6 +85,8 @@ jobs:
   Deploy:
         needs: BUILD_AND_PUBLISH
         runs-on: ubuntu-latest
+        env:
+          GIT_RUN_NO: ${{ github.run_number }}
         steps:
           - name: Code checkout
             uses: actions/checkout@v5
