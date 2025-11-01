@@ -7,7 +7,7 @@ env:
   ECS_CLUSTER: vproapp-act2
   CONTAINER_NAME: vproapp
   TASK_DEFINITION: aws-files/taskdeffile.json   #task-definition.json
-  GIT_RUN_NO: ${{ github.run_number }}
+
   
 jobs:
   Testing:
@@ -50,8 +50,8 @@ jobs:
   BUILD_AND_PUBLISH:
       needs: Testing
       runs-on: ubuntu-latest
-      #env:
-      #  GIT_RUN_NO: ${{ github.run_number }}
+      env:
+        GIT_RUN_NO: ${{ github.run_number }}
       steps:
         - name: Code checkout
           uses: actions/checkout@v5
