@@ -118,7 +118,7 @@ jobs:
               container-name: ${{ env.CONTAINER_NAME }}
               #image: ${{ steps.build-image.outputs.image }}
               #image: ${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.run_number }}
-              image: ${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ GIT_RUN_NO }}
+              image: ${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.GIT_RUN_NO }}
 
           - name: Deploy Amazon ECS task definition
             uses: aws-actions/amazon-ecs-deploy-task-definition@v2
