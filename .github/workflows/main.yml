@@ -85,8 +85,8 @@ jobs:
   Deploy:
         needs: BUILD_AND_PUBLISH
         runs-on: ubuntu-latest
-        #env:
-        #  GIT_RUN_NO: ${{ github.run_number }}
+        env:
+          GIT_RUN_NO: ${{ github.run_number }}
         steps:
           - name: Code checkout
             uses: actions/checkout@v5
@@ -120,7 +120,7 @@ jobs:
               container-name: ${{ env.CONTAINER_NAME }}
               #image: ${{ steps.build-image.outputs.image }}
               #image: ${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.run_number }}
-              image: ${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.run_number }}
+              image: ${{ secrets.REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.GIT_RUN_NO }}
 
           - name: Deploy Amazon ECS task definition
             uses: aws-actions/amazon-ecs-deploy-task-definition@v2
